@@ -1,0 +1,390 @@
+/***** Labclock Web CSS *****/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent;
+}
+
+html {
+    overflow: hidden;
+}
+
+body {
+    line-height: 1;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+body {
+    font-family: "Helvetica neue", Helvetica, Arial;
+    font-size: 13px;
+}
+
+.clear {
+    clear: both;
+}
+
+a {
+    text-decoration: none;
+    color: #5f5f5f;
+}
+
+a:hover {
+    color: #00629c;
+}
+
+h1, h2, h3, h4, h5 {
+    text-align: left;
+}
+
+h1 {
+    color: #00629c;
+    font-size: 36px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e2e2e2;
+}
+
+h1 a {
+    color: #333333;
+}
+
+h2 {
+    color: #737373;
+    font-size: 30px;
+    line-height: 27px;
+    margin-bottom: 4px;
+}
+
+h3 {
+    color: #464646;
+    font-size: 18px;
+    line-height: 20px;
+}
+
+h4 {
+    color: #6699CC;
+    font-size: 17px;
+}
+
+h5 {
+    color: #505050;
+    font-size: 16px;
+}
+
+h6 {
+    color: #00629C;
+    font-size: 16px;
+}
+
+small {
+    font-size: 12px;
+    color: #797979;
+}
+
+hr {
+    height: 0px;
+    border-bottom: 0px;
+    border-top: 1px solid #b2cce5;
+}
+
+hr.grey {
+    border-color: #EEE;
+    margin: 0px 0px 10px 0px;
+}
+
+p {
+    margin: 3px 0px 3px 0px;
+}
+
+table {
+    margin-bottom: 15px;
+}
+
+table td, table th {
+    border: 1px solid #eee;
+    padding: 5px;
+    text-align: center;
+}
+
+table th {
+    background: #F6F6F6;
+}
+
+ul.no_style {
+    list-style:none;
+    margin: 0;
+}
+
+#container {
+    width: 800px;
+    margin: 0 auto;
+}
+
+/***** CONTENT *****/
+
+#content {
+    width: 800px;
+    padding: 20px 0px 20px 0px;
+    border-top: 1px solid #dfdfdf;
+    margin-bottom: 40px;
+}
+
+#exp_screen_caption{
+    font-size: 12pt;
+    min-height: 50px;
+}
+
+.screen {
+    display: none;
+    min-height: 610px;
+    border: 1px solid white;
+}
+
+#pre_screen_content, #exp_screen_content, #post_screen_content {
+    width: 90%;
+    font-size: 12pt;
+    line-height: 30px;
+    margin-right:auto;
+    margin-left:auto;
+}
+
+#exp_screen_progress {
+    background-color: #6699cc;
+    border: 1px solid #00629c;
+    margin: 0px 0px 0px 0px;
+    width: 5px;
+    display: none;
+}
+
+#exp_screen_content {
+    display: none;
+    border: 1px solid white;
+}
+
+#buttons {
+    position: absolute;
+    width: 800px;
+    height: 100px;
+    z-index: 100;
+}
+
+#buttons ul li {
+    font-size: 15px;
+    color: #6699cc;
+    font-weight: bold;
+    padding: 7px 10px 7px 10px;
+    border: 1px solid #00629c;
+    background: #00629c;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -o-border-radius: 10px;
+    border-radius: 10px;
+}
+
+#buttons ul li:hover {
+    background: #fff;
+}
+
+#buttons ul li:hover .pointer {
+    background-position: -18px 0px;
+}
+
+#buttons ul a li:hover {
+    color: #00629c;
+}
+
+#buttons ul a li {
+    color: #fff;
+}
+
+#button_previous {
+    display: none;
+    float: left;
+    list-style-type: none;
+}
+
+#button_ok {
+    display: none;
+    float: left;
+    list-style-type: none;
+    margin-left: 48%;
+}
+
+#button_next {
+    display: none;
+    float: right;
+    list-style-type:none;
+}
+
+#button_previous .pointer{
+    width: 18px;
+    height: 18px;
+    margin: 0px 5px 0px 0px;
+    background: url('../img/pointer_left.png') no-repeat;
+    float: left;
+    position: relative;
+    left: 0px;
+}
+
+#button_ok .pointer{
+    width: 0px;
+    height: 18px;
+    margin: 0px 0px 0px 0px;
+    float: left;
+    position: relative;
+    left: 0px;
+}
+
+#button_next .pointer{
+    width: 18px;
+    height: 18px;
+    margin: 0px 0px 0px 5px;
+    background: url('../img/pointer_right.png') no-repeat;
+    float: right;
+    position: relative;
+    right: 0px;
+}
+
+/***** FOOTER *****/
+
+#footer{
+    width: 800px;
+    border-top: 1px solid #e2e2e2;
+    color: #b0b0b0;
+    font-size: 10px;
+    line-height: 12px;
+    padding: 3px 5px 30px 5px;
+}
+
+#footer a{
+    color: #b0b0b0;
+    font-weight: bold;
+}
+
+#footer a:hover{
+    text-decoration: underline;
+}
+
+#footer span.footer_bq{
+    float: left;
+    width: 50%;
+}
+
+#footer span.bq_right{
+    text-align: right;
+}
+
+/***** CLOCK *****/
+
+#demo_marks #demo_dot {
+  -webkit-animation-name: spin;
+  -webkit-animation-iteration-count: 200;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-duration: 2.560s;
+  -webkit-animation-delay: 0.5s;
+
+  -moz-animation-name: spin;
+  -moz-animation-iteration-count: 200;
+  -moz-animation-timing-function: linear;
+  -moz-animation-duration: 2.560s;
+  -moz-animation-delay: 0.5s;
+
+  animation-name: spin;
+  animation-iteration-count: 200;
+  animation-timing-function: linear;
+  animation-duration: 2.560s;
+  animation-delay: 0.5s;
+}
+
+#exp_screen_caption {
+    text-align: center;
+}
+
+#clock, #demo_clock {
+  width:510px;
+  height:510px;
+  margin-right:auto;
+  margin-left:auto;
+}
+
+#marks, #demo_marks {
+  width:510px; 
+  height:510px;
+  position:absolute;
+  background: url("../img/clock.png") no-repeat 0 0;
+}
+
+#dot, #demo_dot{
+  width:100%; 
+  height:100%;
+  position:absolute;
+  z-index:1;
+  top:0;
+  left:0;
+}
+
+#marks #dot {
+  -webkit-animation-play-state: paused;
+  -webkit-animation-name: spin;
+  -webkit-animation-iteration-count: 2;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-duration: 2.560s;
+  -webkit-animation-delay: 0.5s;
+
+  -moz-animation-play-state: paused;
+  -moz-animation-name: spin;
+  -moz-animation-iteration-count: 2;
+  -moz-animation-timing-function: linear;
+  -moz-animation-duration: 2.560s;
+  -moz-animation-delay: 0.5s;
+
+  animation-play-state: paused;
+  animation-name: spin;
+  animation-iteration-count: 2;
+  animation-timing-function: linear;
+  animation-duration: 2.560s;
+  animation-delay: 0.5s;
+}
+
+@-webkit-keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg) translate3d(0,0,0);
+  }
+  to {
+    -webkit-transform: rotate(360deg) translate3d(0,0,0);
+  }
+}
+
+@-moz-keyframes spin {
+  from {
+    -moz-transform: rotate(0deg);
+  }
+  to {
+    -moz-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+

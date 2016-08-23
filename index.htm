@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>Labclock web</title>
+  <link rel="stylesheet" href="css/main.css" type="text/css" media="screen" />
+</head>
+<body>
+  <div id="container">
+    <div id="content">
+      <div id="screens">
+        <div id="pre_screen" class="screen">
+          <h1><span id="pre_screen_title"></span></h1>
+          <div id="pre_screen_content"></div>
+          </div>
+          <div id="exp_screen" class="screen">
+            <h1><span id="exp_screen_title"></span></h1>
+            <div id="exp_screen_content"></div>
+            <div id="exp_screen_caption"></div>
+            <div id="exp_screen_clock">
+              <div id="clock">
+                <div id="marks">
+                  <img src="img/dot.png" width="510" height="510"  id="dot"/>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="post_screen" class="screen">
+            <h1><span id="post_screen_title"></span></h1>
+            <div id="post_screen_content"></div>
+          </div>
+      </div>
+      <div id="buttons">
+        <ul>
+          <a href="#" id="a_previous"><li id="button_previous"><div class="pointer"></div><span id="caption_previous">Previous</span></li></a>
+          <a href="#" id="a_ok"><li id="button_ok"><div class="pointer"></div><span id="caption_ok">OK</span></li></a>
+          <a href="#" id="a_next"><li id="button_next"><div class="pointer"></div><span id="caption_next">Next</span></li></a>
+        </ul>
+      </div>
+    </div>
+    <div class="clear"></div>
+    <div id="exp_screen_progress"><br/></div>
+    <div id="footer"></div>
+  </div>
+  <script type="text/javascript" src="js/modernizr.js"></script>
+  <script type="text/javascript" src="js/experimentA.js"></script>
+  <script type="text/javascript" src="js/experimentB.js"></script>
+  <script type="text/javascript" src="js/labclock.js"></script>
+  <script type="text/javascript">window.onload = labclock.start();</script>
+</body>
+</html>
+    
