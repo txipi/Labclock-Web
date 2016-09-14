@@ -157,7 +157,7 @@ var labclock = {
   keypressHandler: function(e) {
     var keyChar;
     if (!document.all) { //Not IE
-      keyChar = event.which;
+      keyChar = e.which;
     } else { //IE
       keyChar = window.event.keyCode;
     }
