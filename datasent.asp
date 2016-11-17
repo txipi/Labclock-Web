@@ -1,10 +1,12 @@
 <%
 	'data to be filled
+	'<configuration>
 	dim emailAdress
 	dim experimentCode
 	emailAdress = "garaizar@deusto.es"
-	experimentCode ="NAME - WEB"
+	experimentCode ="LIBET-001 - WEB"
 	domain = "deusto.es"
+	'</configuration>
 
 	'program variables
 	dim mail

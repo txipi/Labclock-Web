@@ -40,7 +40,7 @@ experiment.A = {
   preScreens: [
     {
       title: 'Welcome',
-      content: '<p><strong>LabClock 1.2</strong><br/><a href="http://www.labpsico.deusto.es/">Labpsico</a>, 2012<br/><br/>Developed by Pablo Garaizar<br/>garaizar@deusto.es<br/><a href="http://www.deusto.es/">Universidad de Deusto</a><br/>Bilbao, Spain</p><br/><br/><br/><p>Before you start, please check if the <strong>audio is activated </strong> and choose <strong>appropriate volume</strong>.</p><br/><br/><br/><p>Press \'Next\' to continue...</p>'
+      content: '<p><strong>LabClock 1.3.1</strong><br/><a href="http://www.labpsico.deusto.es/">Labpsico</a>, 2016<br/><br/>Developed by Pablo Garaizar<br/>garaizar@deusto.es<br/><a href="http://www.deusto.es/">Universidad de Deusto</a><br/>Bilbao, Spain</p><br/><br/><br/><p>Before you start, please check if the <strong>audio is activated </strong> and choose <strong>appropriate volume</strong>.</p><br/><br/><br/><p>Press \'Next\' to continue...</p>'
     },
     {
       title: 'Thank you',

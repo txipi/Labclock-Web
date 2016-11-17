@@ -241,6 +241,7 @@ var labclock = {
     this.dot.style.mozAnimationPlayState = 'running';
     this.dot.style.animationPlayState = 'running';
     this.watchdogTimer = setTimeout(function () {
+      self.labclock.dot.style.display = 'none';
       self.labclock.dot.style.webkitAnimation = 'none';
       self.labclock.dot.style.mozAnimation = 'none';
       self.labclock.dot.style.animation = 'none';
@@ -305,6 +306,13 @@ var labclock = {
         centerY = topValue + this.offsetHeight / 2;
     self.labclock.setAngle(centerX, centerY, e.clientX, e.clientY);
   },
+  noKeyPress: function () {
+      setTimeout(this.startNextTrialHandler, 10);
+  }, 
+  startNextTrialHandler: function (e) {
+    self.labclock.trialsIndex++;
+    self.labclock.startTrial(true);
+  },
   setWhenSelectingListeners: function () {
     this.clock.addEventListener('click', this.clickWhenSelectingHandler, false);
   },
@@ -329,8 +337,10 @@ var labclock = {
       this.expScreenCaption.innerHTML = this.experiment.messages.trialSelecting;
       this.setWhenSelectingListeners();
     } else {
-      this.trialsIndex++;
-      this.startTrial(true);
+      this.dot.style.webkitAnimationPlayState = 'paused';
+      this.dot.style.mozAnimationPlayState = 'paused';
+      this.dot.style.animationPlayState = 'paused';
+      this.noKeyPress();
     }
   },
   showPhaseScreen: function (i) {
