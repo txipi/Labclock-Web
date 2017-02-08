@@ -389,22 +389,32 @@ var labclock = {
       }
     }
     results += resultsEnd;
-    xhr = new XMLHttpRequest();
-    xhr.open('POST', this.experiment.postResultsURL, true);
-    xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-    xhr.onreadystatechange = function (e) {
-      if (xhr.readyState === 4) {
-         if (xhr.status === 200) {
-           window.console.log('Sent!');
-         } else {
-           window.console.log('Error ' + xhr.status);
-         }
+    if (this.experiment.postResultsURL) {
+      xhr = new XMLHttpRequest();
+      xhr.open('POST', this.experiment.postResultsURL, true);
+      xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+      xhr.onreadystatechange = function (e) {
+        if (xhr.readyState === 4) {
+           if (xhr.status === 200) {
+             window.console.log('Sent!');
+           } else {
+             window.console.log('Error ' + xhr.status);
+           }
+        }
+      };
+      try {
+        xhr.send('data=' + results);
+      } catch (e) {
+        alert(this.experiment.messages.errorAJAX);
       }
-    };
-    try {
-      xhr.send('data=' + results);
-    } catch (e) {
-      alert(this.experiment.messages.errorAJAX);
+    } 
+    if (this.experiment.generateCSV || !this.experiment.postResultsURL) {
+      // Show CSV link in a new post-screen
+      var screen = {
+        title: this.experiment.messages.downloadTitle,
+        content: '<p><a href="data:text/csv;base64,' + window.btoa(results) + '">' + this.experiment.messages.downloadData + '</a></p>'
+      };
+      this.experiment.postScreens.push(screen);
     }
     if (Modernizr.localstorage) {
       window.localStorage.setItem(storageItem, results);

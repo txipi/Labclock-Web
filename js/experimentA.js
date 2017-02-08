@@ -10,7 +10,8 @@ experiment.A = {
   password: '99',
   randomDelayMin: 1000,
   randomDelayMax: 3000,
-  postResultsURL: 'datasent.asp',
+  //postResultsURL: 'datasent.asp',
+  generateCSV: true,
   responseKey: ' ',
   sounds: {
     getReady: {
@@ -35,12 +36,14 @@ experiment.A = {
     errorAudio: 'Your browser do not support Web Audio API and therefore it will not be possible to play experiment\'s sounds.',
     recommendBrowser: 'Please <a href="http://google.com/chrome">download the latests version of Google Chrome</a> and try again.',
     errorAJAX: 'Unfortunately there has been an error while sending your results. Please contact us to solve the problem.',
+    downloadTitle: 'Download data',
+    downloadData: 'Click here to download experiment\'s data in CSV.',
     end: 'Please close the experiment\'s window.'
   },
   preScreens: [
     {
       title: 'Welcome',
-      content: '<p><strong>LabClock 1.3.1</strong><br/><a href="http://www.labpsico.deusto.es/">Labpsico</a>, 2016<br/><br/>Developed by Pablo Garaizar<br/>garaizar@deusto.es<br/><a href="http://www.deusto.es/">Universidad de Deusto</a><br/>Bilbao, Spain</p><br/><br/><br/><p>Before you start, please check if the <strong>audio is activated </strong> and choose <strong>appropriate volume</strong>.</p><br/><br/><br/><p>Press \'Next\' to continue...</p>'
+      content: '<p><strong>LabClock 1.3.2</strong><br/><a href="http://www.labpsico.deusto.es/">Labpsico</a>, 2017<br/><br/>Developed by Pablo Garaizar<br/>garaizar@deusto.es<br/><a href="http://www.deusto.es/">Universidad de Deusto</a><br/>Bilbao, Spain</p><br/><br/><br/><p>Before you start, please check if the <strong>audio is activated </strong> and choose <strong>appropriate volume</strong>.</p><br/><br/><br/><p>Press \'Next\' to continue...</p>'
     },
     {
       title: 'Thank you',
