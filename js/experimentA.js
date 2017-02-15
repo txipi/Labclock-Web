@@ -31,6 +31,7 @@ experiment.A = {
     wrongPassword: 'Wrong code',
     trialReady: 'GET READY.<br/>Remember that you have to press the SPACEBAR during the SECOND lap.',
     trialSelecting: 'In which moment did you press the spacebar?<br/>Please select the moment clicking into the clock\'s face and press OK.',
+    trialSelectingText: 'In which moment did you press the spacebar?<br/>Please type the number and press OK.',
     errorCSSAnimations: 'Your browser do not support CSS Animations.',
     errorResolution: 'Screen resolution is too small.</p><br/><p>Please press F11 to switch to full screen and then F5 to reload.',
     errorAudio: 'Your browser do not support Web Audio API and therefore it will not be possible to play experiment\'s sounds.',
@@ -70,9 +71,9 @@ experiment.A = {
     {
       description: 'Training phase',
       progress: false,
-      scramble: true,
+      scramble: false,
       trials: [
-        { cycle: 2560, tone: 1 },
+        { cycle: 2560, tone: 1, response: 'text' },
         { cycle: 2560, tone: 500 },
         { cycle: 2560 }
       ],

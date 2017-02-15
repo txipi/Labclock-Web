@@ -18,6 +18,8 @@ var labclock = {
   expScreenTitle: document.getElementById('exp_screen_title'),
   expScreenProgress: document.getElementById('exp_screen_progress'),
   expScreenCaption: document.getElementById('exp_screen_caption'),
+  expScreenTextbox: document.getElementById('exp_screen_textbox'),
+  expScreenTextboxValue: document.getElementById('exp_screen_textbox_value'),
   expScreenContent: document.getElementById('exp_screen_content'),
   expScreenClock: document.getElementById('exp_screen_clock'),
   clock: document.getElementById('clock'),
@@ -334,8 +336,14 @@ var labclock = {
       this.dot.style.webkitAnimationPlayState = 'paused';
       this.dot.style.mozAnimationPlayState = 'paused';
       this.dot.style.animationPlayState = 'paused';
-      this.expScreenCaption.innerHTML = this.experiment.messages.trialSelecting;
-      this.setWhenSelectingListeners();
+      if (this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].response === 'text') {
+        this.expScreenCaption.innerHTML = this.experiment.messages.trialSelectingText;
+        this.expScreenTextbox.style.display = 'block';
+        this.showButtons(false, true, false);
+      } else {
+        this.expScreenCaption.innerHTML = this.experiment.messages.trialSelecting;
+        this.setWhenSelectingListeners();
+      }
     } else {
       this.dot.style.webkitAnimationPlayState = 'paused';
       this.dot.style.mozAnimationPlayState = 'paused';
@@ -453,7 +461,15 @@ var labclock = {
         }
         break;
       case this.STATE_TRIAL_SELECTING:
-	this.unsetWhenSelectingListeners();
+        if (this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].response === 'text') {
+          // angle stores the value of the textbox, not the corresponding angle
+          this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].angle = this.expScreenTextboxValue.value;
+          // guessTime stores the estimation in ms considering the cycle time
+          this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].guessTime = this.expScreenTextboxValue.value * this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].cycle / 60;
+          this.expScreenTextbox.style.display = 'none';
+        } else {
+          this.unsetWhenSelectingListeners();
+        }
         this.trialsIndex++;
         this.startTrial(true);
         break;
@@ -490,7 +506,7 @@ var labclock = {
         }
         break;
     }
-  },
+  },       
   displayState: function () {
     switch (this.state) {
       case this.STATE_PRE:
@@ -504,11 +520,10 @@ var labclock = {
         this.showPasswordScreen();
         break;
       case this.STATE_PHASE_START:
-        document.onselectstart = function() {return false;} // ie
-        document.onmousedown = function() {return false;} // mozilla
         this.preScreen.style.display = 'none';
         this.expScreen.style.display = 'block';
         this.expScreenContent.style.display = 'none';
+        this.expScreenTextbox.style.display = 'none';
         this.expScreenTitle.innerHTML = '';
         this.expScreenClock.style.display = 'block';
         this.showButtons(false, false, false);

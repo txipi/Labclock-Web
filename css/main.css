@@ -171,9 +171,21 @@ ul.no_style {
     display: none;
 }
 
+#exp_screen_caption {
+    text-align: center;
+}
+
 #exp_screen_content {
     display: none;
     border: 1px solid white;
+}
+
+#exp_screen_textbox {
+    text-align: center;
+}
+
+#exp_screen_textbox {
+    text-align: center;
 }
 
 #buttons {
@@ -309,10 +321,6 @@ ul.no_style {
   animation-timing-function: linear;
   animation-duration: 2.560s;
   animation-delay: 0.5s;
-}
-
-#exp_screen_caption {
-    text-align: center;
 }
 
 #clock, #demo_clock {
