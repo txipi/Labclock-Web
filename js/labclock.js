@@ -462,10 +462,14 @@ var labclock = {
         break;
       case this.STATE_TRIAL_SELECTING:
         if (this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].response === 'text') {
-          // angle stores the value of the textbox, not the corresponding angle
+          // angle stores the value of the textbox, not the corresponding angle when using response: 'text'
           this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].angle = this.expScreenTextboxValue.value;
           // guessTime stores the estimation in ms considering the cycle time
-          this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].guessTime = this.expScreenTextboxValue.value * this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].cycle / 60;
+          if (isNaN(parseFloat(this.expScreenTextboxValue.value))) {
+            this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].guessTime = 0;
+          } else {
+            this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].guessTime = this.expScreenTextboxValue.value * this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].cycle / 60;
+          }
           this.expScreenTextbox.style.display = 'none';
         } else {
           this.unsetWhenSelectingListeners();

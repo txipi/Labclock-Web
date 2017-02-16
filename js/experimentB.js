@@ -31,7 +31,7 @@ experiment.B = {
     wrongPassword: 'Wrong code',
     trialReady: 'GET READY.<br/>Remember that you have to press the SPACEBAR during the SECOND lap.',
     trialSelecting: 'In which moment did you press the spacebar?<br/>Please select the moment clicking into the clock\'s face and press OK.',
-    trialSelectingText: 'In which moment did you press the spacebar?<br/>Please type the number and press OK.',
+    trialSelectingText: 'In which moment did you press the spacebar?<br/>Please type a number between 0 and 60 and press OK.',
     errorCSSAnimations: 'Your browser do not support CSS Animations.',
     errorResolution: 'Screen resolution is too small.</p><br/><p>Please press F11 to switch to full screen and then F5 to reload.',
     errorAudio: 'Your browser do not support Web Audio API and therefore it will not be possible to play experiment\'s sounds.',
@@ -44,7 +44,7 @@ experiment.B = {
   preScreens: [
     {
       title: 'Welcome',
-      content: '<p><strong>LabClock 1.3.2</strong><br/><a href="http://www.labpsico.deusto.es/">Labpsico</a>, 2017<br/><br/>Developed by Pablo Garaizar<br/>garaizar@deusto.es<br/><a href="http://www.deusto.es/">Universidad de Deusto</a><br/>Bilbao, Spain</p><br/><br/><br/><p>Before you start, please check if the <strong>audio is activated </strong> and choose <strong>appropriate volume</strong>.</p><br/><br/><br/><p>Press \'Next\' to continue...</p>'
+      content: '<p><strong>LabClock 1.3.3</strong><br/><a href="http://www.labpsico.deusto.es/">Labpsico</a>, 2017<br/><br/>Developed by Pablo Garaizar<br/>garaizar@deusto.es<br/><a href="http://www.deusto.es/">Universidad de Deusto</a><br/>Bilbao, Spain</p><br/><br/><br/><p>Before you start, please check if the <strong>audio is activated </strong> and choose <strong>appropriate volume</strong>.</p><br/><br/><br/><p>Press \'Next\' to continue...</p>'
     },
     {
       title: 'Thank you',
