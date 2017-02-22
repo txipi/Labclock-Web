@@ -211,14 +211,20 @@ var labclock = {
     this.dot.addEventListener('webkitAnimationEnd', this.animationEndHandler, false);
     this.dot.addEventListener('animationend', this.animationEndHandler, false);
   },
-  setClock: function (d, c) {
+  setClock: function (d, c, s) {
     var delay = d / 1000;
     delay += 's';
     var duration = c / 1000;
     duration += 's';
-    this.dot.style.webkitAnimation = 'spin';
-    this.dot.style.mozAnimation = 'spin';
-    this.dot.style.animation = 'spin';
+    if (s) {
+      this.dot.style.webkitAnimation = 'counterspin';
+      this.dot.style.mozAnimation = 'counterspin';
+      this.dot.style.animation = 'counterspin';
+    } else {
+      this.dot.style.webkitAnimation = 'spin';
+      this.dot.style.mozAnimation = 'spin';
+      this.dot.style.animation = 'spin';
+    }
     this.dot.style.webkitAnimationIterationCount = 2;
     this.dot.style.webkitAnimationTimingFunction = 'linear';
     this.dot.style.mozAnimationIterationCount = 2;
@@ -229,10 +235,10 @@ var labclock = {
     this.dot.style.mozAnimationPlayState = 'paused';
     this.dot.style.animationPlayState = 'paused';
     this.dot.style.webkitAnimationDelay = delay;
-    this.dot.style.webkitAnimationDuration = duration;
     this.dot.style.mozAnimationDelay = delay;
-    this.dot.style.mozAnimationDuration = duration;
     this.dot.style.animationDelay = delay;
+    this.dot.style.webkitAnimationDuration = duration;
+    this.dot.style.mozAnimationDuration = duration;
     this.dot.style.animationDuration = duration;
     this.dot.style.webkitTransform = 'rotate(0deg)';
     this.dot.style.mozTransform = 'rotate(0deg)';
@@ -264,7 +270,7 @@ var labclock = {
           this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].delay = Math.floor(Math.random() * (this.experiment.randomDelayMax - this.experiment.randomDelayMin + 1) + this.experiment.randomDelayMin);
         }
       }
-      this.setClock(this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].delay, this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].cycle);
+      this.setClock(this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].delay, this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].cycle, this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].counterclockwise);
       progress = this.trialsIndex * 800 / this.experiment.phases[this.phasesIndex].trials.length;
       this.expScreenProgress.style.width = progress + 'px';
       if (playSound) {
@@ -291,7 +297,11 @@ var labclock = {
       this.dot.style.transform = 'rotate('+degree+'deg)';
       this.dot.style.display = 'block';
       this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].angle = degree;
-      this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].guessTime = degree * this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].cycle / 360;
+      if (this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].counterclockwise) {
+        this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].guessTime = (360-degree) * this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].cycle / 360;
+      } else {
+        this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].guessTime = degree * this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].cycle / 360;
+      }
       this.enableOKWhenSelected();
     }
   },

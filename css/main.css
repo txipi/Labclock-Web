@@ -392,3 +392,30 @@ ul.no_style {
   }
 }
 
+@-webkit-keyframes counterspin {
+  from {
+    -webkit-transform: rotate(360deg) translate3d(0,0,0);
+  }
+  to {
+    -webkit-transform: rotate(0deg) translate3d(0,0,0);
+  }
+}
+
+@-moz-keyframes counterspin {
+  from {
+    -moz-transform: rotate(360deg);
+  }
+  to {
+    -moz-transform: rotate(0deg);
+  }
+}
+
+@keyframes counterspin {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
