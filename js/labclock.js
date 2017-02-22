@@ -211,7 +211,7 @@ var labclock = {
     this.dot.addEventListener('webkitAnimationEnd', this.animationEndHandler, false);
     this.dot.addEventListener('animationend', this.animationEndHandler, false);
   },
-  setClock: function (d, c, s) {
+  setClock: function (d, c, s, n) {
     var delay = d / 1000;
     delay += 's';
     var duration = c / 1000;
@@ -225,11 +225,17 @@ var labclock = {
       this.dot.style.mozAnimation = 'spin';
       this.dot.style.animation = 'spin';
     }
-    this.dot.style.webkitAnimationIterationCount = 2;
+    if (n && n > 1) {
+      this.dot.style.webkitAnimationIterationCount = n;
+      this.dot.style.mozAnimationIterationCount = n;
+      this.dot.style.animationIterationCount = n;
+    } else {
+      this.dot.style.webkitAnimationIterationCount = 2;
+      this.dot.style.mozAnimationIterationCount = 2;
+      this.dot.style.animationIterationCount = 2;
+    }
     this.dot.style.webkitAnimationTimingFunction = 'linear';
-    this.dot.style.mozAnimationIterationCount = 2;
     this.dot.style.mozAnimationTimingFunction = 'linear';
-    this.dot.style.animationIterationCount = 2;
     this.dot.style.animationTimingFunction = 'linear';
     this.dot.style.webkitAnimationPlayState = 'paused';
     this.dot.style.mozAnimationPlayState = 'paused';
@@ -270,7 +276,7 @@ var labclock = {
           this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].delay = Math.floor(Math.random() * (this.experiment.randomDelayMax - this.experiment.randomDelayMin + 1) + this.experiment.randomDelayMin);
         }
       }
-      this.setClock(this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].delay, this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].cycle, this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].counterclockwise);
+      this.setClock(this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].delay, this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].cycle, this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].counterclockwise, this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].count);
       progress = this.trialsIndex * 800 / this.experiment.phases[this.phasesIndex].trials.length;
       this.expScreenProgress.style.width = progress + 'px';
       if (playSound) {
