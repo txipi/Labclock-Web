@@ -50,7 +50,6 @@ var labclock = {
   trialsIndex: 0,
   postScreensIndex: 0,
   trialCurrentLap: 0,
-  watchdogTimer: null,
   clockRadius: 225,
   //Methods
   initAudio: function () {
@@ -133,7 +132,7 @@ var labclock = {
     this.audioFeedbackNode.buffer = audioFeedbackBuffer;
   },
   playFeedback: function () {
-    if (this.trialCurrentLap > 0) {
+    if (this.trialCurrentLap > 0 || this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].firstlap) {
       if (this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].tone) {
         if (!this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].toneTime) {
           var delay = this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].tone / 1000;
@@ -146,7 +145,11 @@ var labclock = {
     }
   },
   storeKeypressTrialTime: function (t) {
-    this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].keypressTrialTimes.push(t - this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].startTrialTime - this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].cycle);
+    if (this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].firstlap) {
+      this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].keypressTrialTimes.push(t - this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].startTrialTime);
+    } else {
+      this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].keypressTrialTimes.push(t - this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].startTrialTime - this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].cycle);
+    }
   },
   storeStartTrialTimes: function (t) {
     this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].startTrialTime = t;
@@ -175,7 +178,6 @@ var labclock = {
   },
   animationIterationHandler: function (e) {
     self.labclock.trialCurrentLap++;
-    clearTimeout(self.labclock.watchdogTimer);
     if (self.labclock.experiment.phases[self.labclock.phasesIndex].trials[self.labclock.trialsIndex].stop && self.labclock.experiment.phases[self.labclock.phasesIndex].trials[self.labclock.trialsIndex].toneTime) {
       self.labclock.dot.style.webkitAnimation = 'none';
       self.labclock.dot.style.mozAnimation = 'none';
@@ -234,7 +236,7 @@ var labclock = {
       this.dot.style.mozAnimation = 'spin';
       this.dot.style.animation = 'spin';
     }
-    if (l && l > 1) {
+    if (l) {
       this.dot.style.webkitAnimationIterationCount = l;
       this.dot.style.mozAnimationIterationCount = l;
       this.dot.style.animationIterationCount = l;
@@ -263,13 +265,6 @@ var labclock = {
     this.dot.style.webkitAnimationPlayState = 'running';
     this.dot.style.mozAnimationPlayState = 'running';
     this.dot.style.animationPlayState = 'running';
-    this.watchdogTimer = setTimeout(function () {
-      self.labclock.dot.style.display = 'none';
-      self.labclock.dot.style.webkitAnimation = 'none';
-      self.labclock.dot.style.mozAnimation = 'none';
-      self.labclock.dot.style.animation = 'none';
-      self.labclock.startTrial(false);
-    }, this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].delay + this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].cycle + 1000);
   },
   startTrial: function (playSound) {
     var progress;
