@@ -56,7 +56,6 @@ h1 {
     color: #00629c;
     font-size: 36px;
     margin-bottom: 20px;
-    border-bottom: 1px solid #e2e2e2;
 }
 
 h1 a {
@@ -152,7 +151,7 @@ ul.no_style {
 .screen {
     display: none;
     min-height: 610px;
-    border: 1px solid white;
+    border: 0px;
 }
 
 #pre_screen_content, #exp_screen_content, #post_screen_content {
@@ -165,7 +164,7 @@ ul.no_style {
 
 #exp_screen_progress {
     background-color: #6699cc;
-    border: 1px solid #00629c;
+    border: 0px;
     margin: 0px 0px 0px 0px;
     width: 5px;
     display: none;
@@ -177,7 +176,7 @@ ul.no_style {
 
 #exp_screen_content {
     display: none;
-    border: 1px solid white;
+    border: 0px;
 }
 
 #exp_screen_textbox {
@@ -272,7 +271,7 @@ ul.no_style {
 
 #footer{
     width: 800px;
-    border-top: 1px solid #e2e2e2;
+    border-top: 0px;
     color: #b0b0b0;
     font-size: 10px;
     line-height: 12px;

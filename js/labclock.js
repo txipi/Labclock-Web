@@ -10,6 +10,8 @@ var labclock = {
   STATE_POST: 7,
   //Selectors
   head: document.getElementsByTagName('head')[0],
+  body: document.getElementsByTagName('body')[0],
+  bodyStyle: document.getElementsByTagName('body')[0].style,
   experimentElement: document.createElement('script'),
   preScreen: document.getElementById('pre_screen'),
   preScreenTitle: document.getElementById('pre_screen_title'),
@@ -23,7 +25,6 @@ var labclock = {
   expScreenContent: document.getElementById('exp_screen_content'),
   expScreenClock: document.getElementById('exp_screen_clock'),
   clock: document.getElementById('clock'),
-  audioGetReadyElement: null,
   dot: document.getElementById('dot'),
   postScreen: document.getElementById('post_screen'),
   postScreenTitle: document.getElementById('post_screen_title'),
@@ -40,10 +41,10 @@ var labclock = {
   //Properties
   experiment: null,
   audioContext: null,
-  audioGetReadyElement: null,
-  audioFeedbackBuffer: null,
-  audioFeedbackBufferData: null,
-  audioFeedbackNode: null,
+  audioGetReadyElements: [],
+  audioFeedbackBuffers: [],
+  audioFeedbackBuffersData: [],
+  audioFeedbackNodes: [],
   state: undefined,
   preScreensIndex: 0,
   phasesIndex: 0,
@@ -55,10 +56,12 @@ var labclock = {
   initAudio: function () {
     try {
       this.audioContext = new AudioContext();
-      this.audioFeedbackBuffer = this.audioContext.createBuffer(1, 16384, 48000);
-      this.audioGetReadyElement = document.createElement('audio');
-      this.audioGetReadyElement.src = this.experiment.sounds.getReady.file;
-      this.audioGetReadyElement.preload = 'auto';
+      for (var i = 0; i <  this.experiment.sounds.getReady.length; i++) {
+        this.audioGetReadyElements[i] = document.createElement('audio');
+        this.audioGetReadyElements[i].src = this.experiment.sounds.getReady[i].file;
+        this.audioGetReadyElements[i].preload = 'auto';
+        this.setAudioListeners(i);
+      }
     } catch (e) {
       this.preScreenContent.innerHTML = '<p><strong>ERROR:</strong> ' + this.experiment.messages.errorAudio + '</p><br/><p>' + this.experiment.messages.recommendBrowser + '</p>';
       this.showButtons(false, false, false);
@@ -108,35 +111,38 @@ var labclock = {
     this.trialsIndex = 0;
     this.startTrial(true);
   },
-  playReady: function () {
-    this.audioGetReadyElement.play();
+  playReady: function (i) {
+    i = i || 1; 
+    this.audioGetReadyElements[--i].play();
     this.state = this.STATE_TRIAL_RUNNING;
     this.startClock();
   },
-  prepareFeedback: function () {
+  prepareFeedback: function (i) {
     var SAMPLE_RATE = 48000,
-        BUFFER_SIZE = 16384,
         PI_2 = Math.PI * 2,
-        i = 0,
-        samples = 0,
-        audioFeedbackBufferData;
-    audioFeedbackBuffer = this.audioContext.createBuffer(1, BUFFER_SIZE, SAMPLE_RATE);
-    this.audioFeedbackBufferData = audioFeedbackBuffer.getChannelData(0);
-    samples = (this.experiment.sounds.feedback.duration / 1000) * SAMPLE_RATE;
-    for (i = 0; i < samples; ++i) {
-      this.audioFeedbackBufferData[i] = Math.sin(this.experiment.sounds.feedback.pitch * PI_2 * i / SAMPLE_RATE);
+        j = 0,
+        samples = 0;
+    i = i || 1;
+    i--;
+    samples = (this.experiment.sounds.feedback[i].duration / 1000) * SAMPLE_RATE;
+    this.audioFeedbackBuffers[i] = this.audioContext.createBuffer(1, samples, SAMPLE_RATE);
+    this.audioFeedbackBuffersData[i] = this.audioFeedbackBuffers[i].getChannelData(0);    
+    for (j = 0; j < samples; j++) {
+      this.audioFeedbackBuffersData[i][j] = Math.sin(this.experiment.sounds.feedback[i].pitch * PI_2 * j / SAMPLE_RATE);
     }
-    this.audioFeedbackNode = this.audioContext.createBufferSource();
-    this.audioFeedbackNode.playbackRate.value = 1.0;
-    this.audioFeedbackNode.connect(this.audioContext.destination);
-    this.audioFeedbackNode.buffer = audioFeedbackBuffer;
+    this.audioFeedbackNodes[i] = this.audioContext.createBufferSource();
+    this.audioFeedbackNodes[i].playbackRate.value = 1.0;
+    this.audioFeedbackNodes[i].connect(this.audioContext.destination);
+    this.audioFeedbackNodes[i].buffer = this.audioFeedbackBuffers[i];
   },
-  playFeedback: function () {
+  playFeedback: function (i) {
+    i = i || 1;
+    i--;
     if (this.trialCurrentLap > 0 || this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].firstlap) {
       if (this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].tone) {
         if (!this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].toneTime) {
           var delay = this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].tone / 1000;
-          this.audioFeedbackNode.start(this.audioContext.currentTime + delay);
+          this.audioFeedbackNodes[i].start(this.audioContext.currentTime + delay);
           this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].toneTime = (this.audioContext.currentTime - this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].startTrialAudioTime) * 1000 + this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].tone;
         }
       } else {
@@ -167,7 +173,7 @@ var labclock = {
       keyChar = window.event.keyCode;
     }
     if (keyChar == self.labclock.experiment.responseKey.charCodeAt(0)) {
-      self.labclock.playFeedback();
+      self.labclock.playFeedback(self.labclock.experiment.phases[self.labclock.phasesIndex].trials[self.labclock.trialsIndex].feedback);
       self.labclock.storeKeypressTrialTime(e.timeStamp);
     }
   },
@@ -206,8 +212,9 @@ var labclock = {
   unsetKeyboardListener: function () {
     window.removeEventListener('keypress', this.keypressHandler, false);
   },
-  setAudioListeners: function () {
-    this.audioGetReadyElement.addEventListener('ended', this.audioGetReadyEndHandler, false);
+  setAudioListeners: function (i) {
+    i = i || 0;
+    this.audioGetReadyElements[i].addEventListener('ended', this.audioGetReadyEndHandler, false);
   },
   setButtonsListeners: function () {
     this.buttonPreviousElement.addEventListener('click', this.clickPrevious.bind(this), false);
@@ -270,7 +277,7 @@ var labclock = {
     var progress;
     if (this.trialsIndex < this.experiment.phases[this.phasesIndex].trials.length) {
       this.dot.style.display = 'block';
-      this.prepareFeedback();
+      this.prepareFeedback(this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].feedback);
       this.trialCurrentLap = 0;
       this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].keypressTrialTimes = [];
       this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].delay = Math.floor(Math.random() * (this.experiment.randomDelayMax - this.experiment.randomDelayMin + 1) + this.experiment.randomDelayMin);
@@ -481,21 +488,27 @@ var labclock = {
         }
         break;
       case this.STATE_TRIAL_SELECTING:
+        var ok = true;
         if (this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].response === 'text') {
           // angle stores the value of the textbox, not the corresponding angle when using response: 'text'
           this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].angle = this.expScreenTextboxValue.value;
           // guessTime stores the estimation in ms considering the cycle time
           if (isNaN(parseFloat(this.expScreenTextboxValue.value))) {
             this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].guessTime = 0;
+            ok = false;
           } else {
             this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].guessTime = this.expScreenTextboxValue.value * this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].cycle / 60;
+            this.expScreenTextbox.style.display = 'none';
+            ok = true;
+
           }
-          this.expScreenTextbox.style.display = 'none';
         } else {
           this.unsetWhenSelectingListeners();
         }
-        this.trialsIndex++;
-        this.startTrial(true);
+        if (ok) {
+          this.trialsIndex++;
+          this.startTrial(true);
+        }
         break;
       case this.STATE_PHASE_END:
         this.phasesIndex++;
@@ -564,10 +577,18 @@ var labclock = {
       case this.STATE_TRIAL_READY:
         this.showButtons(false, false, false);
         this.expScreenCaption.innerHTML = this.experiment.messages.trialReady;
-        this.playReady();
+        if (this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].style) {
+          for (var attr in this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].style) {
+            this.body.style[attr] = this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].style[attr];
+          }
+        } else {
+          this.body.style = this.bodyStyle;
+        }
+        this.playReady(this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].getReady);
         break;
       case this.STATE_TRIAL_SELECTING:
         this.dot.style.display = 'none';
+        this.body.style = this.bodyStyle;
         //Do not start selecting until feedback tone ends
         if (this.audioContext.currentTime < this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].startTrialAudioTime + (this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].toneTime + this.experiment.sounds.feedback.duration) / 1000) {
           setTimeout(this.waitForToneToStartSelecting, 5, this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].startTrialAudioTime + (this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].toneTime + this.experiment.sounds.feedback.duration) / 1000);
@@ -650,7 +671,6 @@ var labclock = {
     this.displayState();
     if(this.sanityChecks()) {
       this.initAudio();
-      this.setAudioListeners();
       this.setClockListeners();
     }
   }
