@@ -383,21 +383,10 @@ var labclock = {
     this.expScreenTitle.innerHTML = this.experiment.phases[i].screen.title;
     this.expScreenContent.innerHTML = this.experiment.phases[i].screen.content;
   },
-  sortTrials: function (a, b) {
-    var first;
-    if (a.tone) {
-      if (b.tone) {
-        first = a.tone - b.tone;
-      }
-    } else {
-      first = -1;
-    }
-    return first;
-  },
   storeExperimentData: function () {
     var results = '',
         resultsEnd = 'Full results;',
-        sorted, xhr, storageItem;
+        xhr, storageItem;
     results += this.experiment.code + ';';
     results += Date() + ';';
     storageItem = results;
@@ -405,7 +394,6 @@ var labclock = {
     for (var p = 0, lp = this.experiment.phases.length; p < lp; p++) {
       results += this.experiment.phases[p].description + ';';
       resultsEnd += this.experiment.phases[p].description + ';';
-      sorted = this.experiment.phases[p].trials.sort(this.sortTrials);
       for (var t = 0, lt = this.experiment.phases[p].trials.length; t < lt; t++) {
         results += 'trial' + t + ';';
         results += this.experiment.phases[p].trials[t].keypressTrialTimes + ';';
