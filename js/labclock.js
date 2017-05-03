@@ -365,6 +365,7 @@ var labclock = {
       this.dot.style.animationPlayState = 'paused';
       if (this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].response === 'text') {
         this.expScreenCaption.innerHTML = this.experiment.messages.trialSelectingText;
+        this.expScreenTextboxValue.value = '';
         this.expScreenTextbox.style.display = 'block';
         this.showButtons(false, true, false);
       } else {
@@ -452,6 +453,16 @@ var labclock = {
     this.postScreenTitle.innerHTML = this.experiment.postScreens[i].title;
     this.postScreenContent.innerHTML = this.experiment.postScreens[i].content;
   },
+  nextPhase: function () {
+    this.phasesIndex++;
+    if (this.phasesIndex < this.experiment.phases.length) {
+      this.state = this.STATE_PHASE_START;
+    } else {
+      this.storeExperimentData();
+      this.state = this.STATE_POST;
+    }
+    this.displayState();
+  },
   clickPrevious: function () {
     switch (this.state) {
       case this.STATE_PRE:
@@ -499,14 +510,7 @@ var labclock = {
         }
         break;
       case this.STATE_PHASE_END:
-        this.phasesIndex++;
-        if (this.phasesIndex < this.experiment.phases.length) {
-          this.state = this.STATE_PHASE_START;
-        } else {
-          this.storeExperimentData();
-          this.state = this.STATE_POST;
-        }
-        this.displayState();
+        this.nextPhase();
         break;
     }
   },
@@ -589,7 +593,11 @@ var labclock = {
         this.expScreenClock.style.display = 'none';
         this.expScreenCaption.innerHTML = '';
         this.expScreenProgress.style.display = 'none';
-        this.showPhaseScreen(this.phasesIndex);
+        if (this.experiment.phases[this.phasesIndex].screen) {
+          this.showPhaseScreen(this.phasesIndex);
+        } else {
+          this.nextPhase();
+        }
         break;
       case this.STATE_POST:
         this.expScreen.style.display = 'none';
