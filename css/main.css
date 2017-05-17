@@ -183,6 +183,24 @@ ul.no_style {
     text-align: center;
 }
 
+#demosound {
+    font-size: 15px;
+    color: #fff;
+    font-weight: bold;
+    padding: 7px 10px 7px 10px;
+    border: 1px solid #00629c;
+    background: #00629c;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -o-border-radius: 10px;
+    border-radius: 10px;
+}
+
+#demosound:hover {
+    background: #fff;
+    color: #00629c;
+}
+
 #buttons {
     position: absolute;
     width: 800px;

@@ -56,7 +56,12 @@ var labclock = {
   initAudio: function () {
     try {
       this.audioContext = new AudioContext();
-      for (var i = 0; i <  this.experiment.sounds.getReady.length; i++) {
+      this.audioGetReadyElements[0] = document.createElement('audio');
+      this.audioGetReadyElements[0].src = this.experiment.sounds.demo[0].file;
+      this.audioGetReadyElements[0].preload = 'auto';
+      this.setAudioListeners(0);
+
+      for (var i = 1; i <  this.experiment.sounds.getReady.length; i++) {
         this.audioGetReadyElements[i] = document.createElement('audio');
         this.audioGetReadyElements[i].src = this.experiment.sounds.getReady[i].file;
         this.audioGetReadyElements[i].preload = 'auto';
@@ -110,6 +115,9 @@ var labclock = {
   startPhase: function () {
     this.trialsIndex = 0;
     this.startTrial(true);
+  },
+  playDemo: function () {
+    this.audioGetReadyElements[0].play();
   },
   playReady: function (i) {
     i = i || 1; 
