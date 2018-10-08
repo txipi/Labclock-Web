@@ -576,7 +576,11 @@ var labclock = {
         break;
       case this.STATE_TRIAL_READY:
         this.showButtons(false, false, false);
-        this.expScreenCaption.innerHTML = this.experiment.messages.trialReady;
+        if (this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].trialReady) {
+          this.expScreenCaption.innerHTML = this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].trialReady;
+        } else {
+          this.expScreenCaption.innerHTML = this.experiment.messages.trialReady;
+        }
         if (this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].style) {
           for (var attr in this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].style) {
             this.body.style[attr] = this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].style[attr];
