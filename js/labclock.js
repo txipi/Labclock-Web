@@ -146,10 +146,14 @@ var labclock = {
   playFeedback: function (i) {
     i = i || 1;
     i--;
-    if (this.trialCurrentLap > 0 || this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].firstlap) {
+    var d = 0;
+    if (this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].nopress) {
+      d = this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].delay
+    }
+    if (this.trialCurrentLap > 0 || this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].firstlap || this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].nopress) {
       if (this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].tone) {
         if (!this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].toneTime) {
-          var delay = this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].tone / 1000;
+          var delay = (d + this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].tone) / 1000;
           this.audioFeedbackNodes[i].start(this.audioContext.currentTime + delay);
           this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].toneTime = (this.audioContext.currentTime - this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].startTrialAudioTime) * 1000 + this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].tone;
         }
@@ -280,6 +284,11 @@ var labclock = {
     this.dot.style.webkitAnimationPlayState = 'running';
     this.dot.style.mozAnimationPlayState = 'running';
     this.dot.style.animationPlayState = 'running';
+    if (this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].nopress) {
+      this.unsetKeyboardListener();
+      this.playFeedback(this.experiment.phases[this.phasesIndex].trials[this.trialsIndex].feedback);
+      this.storeKeypressTrialTime(0);
+    }
   },
   startTrial: function (playSound) {
     var progress;
